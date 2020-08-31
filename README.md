@@ -5,7 +5,7 @@ Techno
 <div align="center">
 
 ![Node_Badge][node_version_badge] ![Npm_Badge][npm_version_badge] ![React_Badge][web_badge] 
-  <a href="https://origamid.com.br">
+  <a href="https://origamid.com">
     <img alt="Made by Origamid" src="https://img.shields.io/badge/made%20by-Origamid-%237519C1">
   </a>
 
