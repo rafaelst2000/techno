@@ -12,16 +12,41 @@
 
 <body>
   <div id="app">
-    <section class="modal" v-if="produto">
+    <header class="header">
+      <img class="logo" src="./assets/techno.svg" alt="Techno logo">
+      <div class="carrinho_menu">
+        {{carrinhoTotal | numberToPrice}} | {{carrinho.length | }}
+      </div>
+      <ul>
+        <li v-for="(item, index) in carrinho">
+          <p>{{item.nome}}</p>
+          <button @click="removerItem(index)">X</button>
+        </li>
+      </ul>
+    </header>
+
+    <section class="produtos">
+      <div class="produto" :key="produto.id" @click="abrirModal(produto.id)" v-for="produto in produtos">
+        <img :src="produto.img" :alt="produto.nome" class="produto_img">
+        <div class="produto_info">
+          <span class="produto_preco">{{produto.preco | numberToPrice}}</span>
+          <h2 class="produto_titulo">{{produto.nome}}</h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="modal" v-if="produto" @click="fecharModal($event)">
       <div class="modal_container">
         <div class="modal_img">
           <img :src="produto.img" alt="produto.nome">
         </div>
         <div class="modal_dados">
-          <span class="modal_preco">{{produto.preco}}</span>
+          <button @click="produto = false" class="modal_fechar">X</button>
+          <span class="modal_preco">{{produto.preco | numberToPrice}}</span>
           <h2 class="modal_titulo">{{produto.nome}}</h2>
           <p class="modal_descricao">{{produto.descricao}}</p>
-          <button class="modal_btn">Adicionar Item</button>
+          <button v-if="produto.estoque > 0" @click="adicionarItem()" class="modal_btn">Adicionar Item</button>
+          <button v-else disabled class="modal_btn modal_btn-esgotado">Produto Esgotado</button>
         </div>
         <div class="avaliacoes">
           <h2 class="avaliacoes_subtitulo">Avaliações</h2>
@@ -35,16 +60,9 @@
       </div>
     </section>
 
-    <section class="produtos">
-      <div class="produto" :key="produto.id" @click="fetchProduto(produto.id)" v-for="produto in produtos">
-        <img :src="produto.img" :alt="produto.nome" class="produto_img">
-        <div class="produto_info">
-          <span class="produto_preco">{{produto.preco | numberToPrice}}</span>
-          <h2 class="produto_titulo">{{produto.nome}}</h2>
-        </div>
-
-      </div>
-    </section>
+    <div class="alerta" :class="{ativo: alertaAtivo}">
+      <p class="alerta_mensagem">{{mensagemAlerta}}</p>
+    </div>
   </div>
   <script src="./app.js"></script>
 </body>
